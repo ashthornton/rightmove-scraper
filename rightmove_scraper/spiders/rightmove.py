@@ -23,12 +23,9 @@ PR = Iterable[Union[Dict, scrapy.Request]]
 
 
 def _extract_model(response: Response) -> Dict:
-    script = response.xpath(
-        "/html/body/script[text()[contains(.,'window.jsonModel = ')]]/text()"
-    ).extract_first()
-    jsmodel = script[len("window.jsonModel = ") :]
-    model = json.loads(jsmodel)
-    return model
+    page_data = response.css("script#__NEXT_DATA__::text").extract_first()
+    model = json.loads(page_data)
+    return model['props']['pageProps']['searchResults']
 
 
 def _extract_property_model(response: Response) -> Dict:
