@@ -1,11 +1,11 @@
 from os import environ
 
-SEARCH_URLS = environ.get("SEARCH_URLS", "").split(",")
+SEARCH_URLS = ["https://www.rightmove.co.uk/property-to-rent/find.html?houseFlatShare=false&keywords=&sortType=6&dontShow=houseShare%2Cretirement%2Cstudent&viewType=LIST&channel=RENT&index=0&maxPrice=1250&radius=0.0&retirement=false&locationIdentifier=USERDEFINEDAREA%5E%7B%22id%22%3A%228353222%22%7D"]
 
 LOG_FILE = environ.get("LOG_FILE_PATH", "rightmove.log")
 
-OUTPUT_JSON_PATH = environ.get("OUTPUT_JSON_PATH", False)
-NO_DB = environ.get("NO_DB", False)
+OUTPUT_JSON_PATH = '/out/properties.json'
+NO_DB = True
 
 BOT_NAME = "rightmove_scraper"
 SPIDER_MODULES = ["rightmove_scraper.spiders"]
@@ -32,8 +32,7 @@ DOWNLOADER_MIDDLEWARES = {
 
 ITEM_PIPELINES = {}
 # Configure item pipelines
-if environ.get("NO_DB", 0) == 1:
-    ITEM_PIPELINES["rightmove_scraper.pipelines.ModelPipeline"] = 300
+ITEM_PIPELINES["rightmove_scraper.pipelines.ModelPipeline"] = 300
 
 
 # Enable and configure HTTP caching (disabled by default)

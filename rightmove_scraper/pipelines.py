@@ -19,19 +19,19 @@ class ModelPipeline:
 
     def close_spider(self, spider):
         if len(self.models):
-            for model_name, list_of_models in self.models.items():
-                model = list_of_models[0].model
-                for batch in chunked(list_of_models, 25):
-                    try:
-                        model.insert_many(batch).on_conflict_replace().execute()
-                    except Exception as e:
-                        print(f"Failed to insert {len(batch)} {model_name} models: {e}")
-            if spider.settings.get("OUTPUT_JSON_PATH"):
-                exporter = DBJsonExporter(open(spider.settings.get("OUTPUT_JSON_PATH"), 'wb'))
-                exporter.start_exporting()
-                for item in self.models[Property]:
-                    exporter.export_item(item)
-                exporter.finish_exporting()
+            # for model_name, list_of_models in self.models.items():
+            #     model = list_of_models[0].model
+            #     for batch in chunked(list_of_models, 25):
+            #         try:
+            #             model.insert_many(batch).on_conflict_replace().execute()
+            #         except Exception as e:
+            #             print(f"Failed to insert {len(batch)} {model_name} models: {e}")
+            # if spider.settings.get("OUTPUT_JSON_PATH"):
+            exporter = DBJsonExporter(open('/out/properties.json', 'wb'))
+            exporter.start_exporting()
+            for item in self.models[Property]:
+                exporter.export_item(item)
+            exporter.finish_exporting()
 
     def process_item(self, item, spider):
         if isinstance(item, ModelItem):

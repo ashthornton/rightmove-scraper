@@ -160,14 +160,14 @@ class RightmoveSpider(scrapy.Spider):
     allowed_domains = ["rightmove.co.uk"]
 
     def start_requests(self) -> Iterable[scrapy.Request]:
-        urls = self.settings.get("SEARCH_URLS", [])
-        if isinstance(urls, str):
-            urls = urls.split(",")
-        if len(urls) == 0:
-            print("No search URLs configured. Please set SEARCH_URLS in settings.py.")
+        # urls = self.settings.get("SEARCH_URLS", [])
+        # if isinstance(urls, str):
+        #     urls = urls.split(",")
+        # if len(urls) == 0:
+        #     print("No search URLs configured. Please set SEARCH_URLS in settings.py.")
 
-        for url in urls:
-            yield scrapy.Request(url=url, callback=self.parse)
+        # for url in urls:
+        yield scrapy.Request(url="https://www.rightmove.co.uk/property-to-rent/find.html?houseFlatShare=false&keywords=&sortType=6&dontShow=houseShare%2Cretirement%2Cstudent&viewType=LIST&channel=RENT&index=0&maxPrice=1250&radius=0.0&retirement=false&locationIdentifier=USERDEFINEDAREA%5E%7B%22id%22%3A%228353222%22%7D", callback=self.parse)
 
     def parse(self, response: Response, *args, **kwargs) -> PR:
         model = _extract_model(response)

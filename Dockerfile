@@ -3,7 +3,7 @@ FROM python:3.12-alpine
 ENV OUTPUT_JSON_PATH /out/properties.json
 ENV DB_PATH /out/properties.db
 ENV LOG_FILE_PATH /out/rightmove.log
-ENV NO_DB 0
+ENV NO_DB 1
 
 RUN mkdir "/rightmove-scraper"
 
